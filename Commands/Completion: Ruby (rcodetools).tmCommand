@@ -68,7 +68,7 @@ END_COMMAND
 
 #print command
 #exit
-completions = `#{command}`.to_a.map { |l| l.strip }.select { |l| l =~ /\S/ }
+completions = `#{command}`.split("\n").map { |l| l.strip }.select { |l| l =~ /\S/ }
 
 if not $?.success?
   TextMate.exit_show_tool_tip "Parse error&gt;\n#{File.read("/tmp/tm_complete_errors")}"
