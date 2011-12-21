@@ -16,6 +16,24 @@ TM_RUBY    = ENV["TM_RUBY"] || "ruby"
 RCODETOOLS = "#{ENV['TM_BUNDLE_SUPPORT']}/vendor/rcodetools"
 
 RAILS_DIR = nil
+_proj_lib_dir = nil
+
+dir = File.dirname(ENV["TM_FILEPATH"])
+if dir
+  dir = Pathname.new(dir)
+  loop do
+    if (dir + "lib").exist?
+      _proj_lib_dir = (dir + "lib").to_s
+      break
+    end
+    
+    break if dir.to_s == ENV["TM_PROJECT_DIRECTORY"]
+    
+    dir += ".."
+  end
+end
+
+
 dir = File.dirname(ENV["TM_FILEPATH"]) rescue ENV["TM_PROJECT_DIRECTORY"]
 if dir
   dir = Pathname.new(dir)
@@ -38,10 +56,12 @@ command     = &lt;&lt;END_COMMAND.tr("\n", " ").strip
 --
 "#{RCODETOOLS}/bin/rct-complete"
 #{"-r \"#{RAILS_DIR}/config/environment.rb\"" if RAILS_DIR}
+#{"-I \"#{_proj_lib_dir}\"" if _proj_lib_dir}
 --line=#{ENV['TM_LINE_NUMBER']}
 --column=#{ENV['TM_LINE_INDEX']}
 2&gt; /dev/null
 END_COMMAND
+
 completions = `#{command}`.to_a.map { |l| l.strip }.select { |l| l =~ /\S/ }
 
 if not $?.success?
