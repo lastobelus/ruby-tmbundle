@@ -11,8 +11,8 @@
 
 print case str = STDIN.read
   # Handle standard quotes
-  when /\A["'](\w+)["']\z/: ":" + $1
-  when /\A:(\w+)\z/: '"' + $1 + '"'
+  when /\A["'](\w+)["']\z/ then ":" + $1
+  when /\A:(\w+)\z/ then '"' + $1 + '"'
   # Default case
   else str
 end
