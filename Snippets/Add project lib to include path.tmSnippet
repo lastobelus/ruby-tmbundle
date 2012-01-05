@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>THIS_FILE = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
+$:.unshift File.join(File.dirname(THIS_FILE), '..', 'lib')
+</string>
+	<key>name</key>
+	<string>Add project lib to include path</string>
+	<key>scope</key>
+	<string>source.ruby</string>
+	<key>tabTrigger</key>
+	<string>inclib</string>
+	<key>uuid</key>
+	<string>612A3DA4-3C6A-45B0-A35A-F7CED519B9AF</string>
+</dict>
+</plist>
