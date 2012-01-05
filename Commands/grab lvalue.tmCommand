@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby
+#raise ".ENV['TM_LINE_INDEX']: #{ENV['TM_LINE_INDEX'].inspect}"
+snip = ENV['TM_CURRENT_LINE'][0..ENV['TM_LINE_INDEX'].to_i]
+terms = snip.split(/ += +/)
+if terms.length &gt; 1 || (terms.first.length &lt; snip.length)
+	print terms.first.strip
+end</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>^@c</string>
+	<key>name</key>
+	<string>grab lvalue</string>
+	<key>output</key>
+	<string>afterSelectedText</string>
+	<key>scope</key>
+	<string>source</string>
+	<key>uuid</key>
+	<string>A8A210BB-4A6C-4CA9-A1D3-9855776367E7</string>
+</dict>
+</plist>
