@@ -6,81 +6,81 @@
 	<string>nop</string>
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
-    require "#{ENV["TM_SUPPORT_PATH"]}/lib/exit_codes"
-    require "#{ENV["TM_SUPPORT_PATH"]}/lib/ui"
+require "#{ENV["TM_SUPPORT_PATH"]}/lib/exit_codes"
+require "#{ENV["TM_SUPPORT_PATH"]}/lib/ui"
 
-    require "pathname"
+require "pathname"
 
 
-    TM_RUBY    = ENV["TM_RUBY"] || "ruby"
-    RCODETOOLS = "#{ENV['TM_BUNDLE_SUPPORT']}/vendor/rcodetools"
+TM_RUBY    = ENV["TM_RUBY"] || "ruby"
+RCODETOOLS = "#{ENV['TM_BUNDLE_SUPPORT']}/vendor/rcodetools"
 
-    RAILS_DIR = nil
-    _proj_lib_dir = nil
+RAILS_DIR = nil
+_proj_lib_dir = nil
 
-    dir = File.dirname(ENV["TM_FILEPATH"])
-    if dir
-      dir = Pathname.new(dir)
-      loop do
-        if (dir + "lib").exist?
-          _proj_lib_dir = (dir + "lib").to_s
-          break
-        end
-
-        break if dir.to_s == ENV["TM_PROJECT_DIRECTORY"]
-
-        dir += ".."
-      end
+dir = File.dirname(ENV["TM_FILEPATH"])
+if dir
+  dir = Pathname.new(dir)
+  loop do
+    if (dir + "lib").exist?
+      _proj_lib_dir = (dir + "lib").to_s
+      break
     end
 
+    break if dir.to_s == ENV["TM_PROJECT_DIRECTORY"]
 
-    dir = File.dirname(ENV["TM_FILEPATH"]) rescue ENV["TM_PROJECT_DIRECTORY"]
-    if dir
-      dir = Pathname.new(dir)
-      loop do
-        if (dir + "config/environment.rb").exist?
-          Object.send(:remove_const, :RAILS_DIR)
-          RAILS_DIR = dir.to_s
-          break
-        end
+    dir += ".."
+  end
+end
 
-        break if dir.to_s == "/"
 
-        dir += ".."
-      end
+dir = File.dirname(ENV["TM_FILEPATH"]) rescue ENV["TM_PROJECT_DIRECTORY"]
+if dir
+  dir = Pathname.new(dir)
+  loop do
+    if (dir + "config/environment.rb").exist?
+      Object.send(:remove_const, :RAILS_DIR)
+      RAILS_DIR = dir.to_s
+      break
     end
 
-    if File.exists?('/tmp/tm_complete_errors')
-      `rm /tmp/tm_complete_errors`
-    end
+    break if dir.to_s == "/"
 
-    command     = &lt;&lt;END_COMMAND.tr("\n", " ").strip
-    "#{TM_RUBY}"
-    -I "#{RCODETOOLS}/lib"
-    --
-    "#{RCODETOOLS}/bin/rct-complete"
-    #{"-r \"#{RAILS_DIR}/config/environment.rb\"" if RAILS_DIR}
-    #{"-I \"#{_proj_lib_dir}\"" if _proj_lib_dir}
-    --line=#{ENV['TM_LINE_NUMBER']}
-    --column=#{ENV['TM_LINE_INDEX']}
-    2&gt; /tmp/tm_complete_errors
-    END_COMMAND
+    dir += ".."
+  end
+end
 
-    #print command
-    #exit
-    completions = `#{command}`.to_a.map { |l| l.strip }.select { |l| l =~ /\S/ }
+if File.exists?('/tmp/tm_complete_errors')
+  `rm /tmp/tm_complete_errors`
+end
 
-    if not $?.success?
-      TextMate.exit_show_tool_tip "Parse error&gt;\n#{File.read("/tmp/tm_complete_errors")}"
-    elsif completions.size == 1
-      selected = completions.first
-    elsif completions.size &gt; 1
-      selected = completions[TextMate::UI.menu(completions)] rescue exit
-    else
-      TextMate.exit_show_tool_tip "No matches were found."
-    end
+command     = &lt;&lt;END_COMMAND.tr("\n", " ").strip
+"#{TM_RUBY}"
+-I "#{RCODETOOLS}/lib"
+--
+"#{RCODETOOLS}/bin/rct-complete"
+#{"-r \"#{RAILS_DIR}/config/environment.rb\"" if RAILS_DIR}
+#{"-I \"#{_proj_lib_dir}\"" if _proj_lib_dir}
+--line=#{ENV['TM_LINE_NUMBER']}
+--column=#{ENV['TM_LINE_INDEX']}
+2&gt; /tmp/tm_complete_errors
+END_COMMAND
 
-    print selected.sub(/\A#{Regexp.escape(ENV['TM_CURRENT_WORD'].to_s)}/, "")
+#print command
+#exit
+completions = `#{command}`.to_a.map { |l| l.strip }.select { |l| l =~ /\S/ }
+
+if not $?.success?
+  TextMate.exit_show_tool_tip "Parse error&gt;\n#{File.read("/tmp/tm_complete_errors")}"
+elsif completions.size == 1
+  selected = completions.first
+elsif completions.size &gt; 1
+  selected = completions[TextMate::UI.menu(completions)] rescue exit
+else
+  TextMate.exit_show_tool_tip "No matches were found."
+end
+
+print selected.sub(/\A#{Regexp.escape(ENV['TM_CURRENT_WORD'].to_s)}/, "")
 </string>
 	<key>input</key>
 	<string>document</string>
