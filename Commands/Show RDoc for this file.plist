@@ -26,7 +26,7 @@ echo "&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=\"refresh\" content=\"0;URL=tm
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>@H</string>
+	<string>^@h</string>
 	<key>name</key>
 	<string>Show for Current File / Project</string>
 	<key>output</key>
