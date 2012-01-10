@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>File.dirname(${1:__FILE__})${2: + "/$0"}</string>
+	<string>File.dirname(${1:__FILE__})</string>
 	<key>name</key>
 	<string>File.dirname(__FILE__)</string>
 	<key>scope</key>

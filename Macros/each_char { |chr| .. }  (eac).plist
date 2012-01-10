@@ -27,7 +27,7 @@
 				<key>bundlePath</key>
 				<string>/Users/james/Library/Application Support/TextMate/Bundles/Ruby Idioms.tmbundle</string>
 				<key>content</key>
-				<string>each_char { |${1:chr}| $0 }</string>
+				<string>each_char { |${1:chr}| $2 }$0</string>
 				<key>scope</key>
 				<string>source.ruby</string>
 				<key>supportPath</key>

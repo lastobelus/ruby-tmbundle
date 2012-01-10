@@ -27,7 +27,7 @@
 				<key>bundlePath</key>
 				<string>/Users/james/Library/Application Support/TextMate/Bundles/Ruby Idioms.tmbundle</string>
 				<key>content</key>
-				<string>each_slice(${1:2}) { |${2:group}| $0 }</string>
+				<string>each_slice(${1:2}) { |${2:group}| $3 }$0</string>
 				<key>scope</key>
 				<string>source.ruby</string>
 				<key>supportPath</key>

@@ -3,14 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>each { |${1:e}| $2 }$0</string>
+	<string>until ${1:condition}
+	$0
+end</string>
 	<key>name</key>
-	<string>each { |e| .. }</string>
+	<string>until ... end (unt)</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>ea</string>
+	<string>unt</string>
 	<key>uuid</key>
-	<string>ECBA4CA0-275F-460E-85BE-E82FEA2E2B26</string>
+	<string>459A3E9C-3834-4A54-898A-5597EAEC2961</string>
 </dict>
 </plist>

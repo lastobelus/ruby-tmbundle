@@ -3,18 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>namespace ${1::name} do
-
+	<string>unless ${1:condition}
 	$0
-
 end</string>
 	<key>name</key>
-	<string>namespace :name ... end</string>
+	<string>unless … end (unl)</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>namespace</string>
+	<string>unl</string>
 	<key>uuid</key>
-	<string>A3D89AAA-9156-4077-A026-37BB7358C3BA</string>
+	<string>D59A7F65-367D-4A03-B02A-92AD28941EFB</string>
 </dict>
 </plist>
