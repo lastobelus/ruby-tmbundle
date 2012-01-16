@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby -w
-# encoding: utf-8
 
 # if we are not called directly from TM (e.g. JavaScript) the caller
 # should ensure that RUBYLIB is set properly
@@ -10,10 +9,13 @@ require "exit_codes"
 require "ui"
 require "web_preview"
 
+require "enumerator"
 require "erb"
 include ERB::Util
 
-RI_EXE = [ ENV['TM_RUBY_RI'], 'qri', 'ri' ].find { |cmd| !cmd.to_s.empty? && (File.executable?(cmd) || ENV['PATH'].split(':').any? { |dir| File.executable? File.join(dir, cmd) }) ? cmd : false }
+tm_var_or_qri = 'RI=$(type -P ${TM_RUBY_RI:-qri})'
+ri_default    = '[[ ! -x "$RI" ]] && RI=$(type -P ri)'
+RI_EXE        = `#{tm_var_or_qri}; #{ri_default}; /bin/echo -n "$RI"`
 
 term = ARGV.shift
 
@@ -27,44 +29,6 @@ def link_methods(prefix, methods)
     match[0] == ?, ?
       match : "<a href=\"javascript:ri('#{prefix}#{match}')\">#{match}</a>"
   end.join
-end
-
-def htmlize_ri_output(text, term)
-  text = text.gsub(/&/, '&amp;').gsub(/</, '&lt;')
-
-  text.sub!(/\A(-+\s+Class: )(.*)$\n*/) do
-    "<h2>Class: " + $2.gsub(/([A-Z_]\w*)(\s+&lt;)?/, "<a href=\"javascript:ri('\\1')\">\\1</a>\\2") + "</h2>\n<pre>"
-  end
-
-  text.sub!(/\A(-+\s+)(([A-Z_]\w*::)*[A-Z_]\w*)((#|::|\.).*)$/) do
-    method    = $4
-    namespace = $2.split("::")
-    linked    = (0...namespace.size).map do |i|
-      "<a href=\"javascript:ri('#{namespace[0..i].join('::')}')\">#{namespace[i]}</a>"
-    end
-    "<h2>#{linked.join("::")}#{method}</h2>\n<pre>"
-  end
-
-  text.sub!(/^(Includes:\s+-+\s+)(.+?)([ \t]*\n[ \t]*\n|\s*\Z)/m) do
-    head, meths, foot = $1, $2, $3
-    head + meths.gsub(/([A-Z_]\w*)\(([^)]*)\)/) do |match|
-      "<a href=\"javascript:ri('#{$1}')\">#{$1}</a>(" +
-      link_methods("#{$1}#", $2) + ")"
-    end + foot
-  end
-
-  text.sub!(/^(Class methods:\s+-+\s+)(.+?)([ \t]*\n[ \t]*\n|\s*\Z)/m) do
-    $1 + link_methods("#{term}::", $2) + $3
-  end
-
-  text.sub!(/^(Instance methods:\s+-+\s+)(.+?)([ \t]*\n[ \t]*\n|\s*\Z)/m) do
-    $1 + link_methods("#{term}#", $2) + $3
-  end
-
-  text.gsub!(/(?:\n+-+$)?\n+([\w\s]+)[:.]$\n-+\n+/, "</pre>\n\n<h2>\\1</h2>\n<pre>")
-  text.gsub!(/^-+$/, '<hr>')
-
-  text.chomp + "</pre>"
 end
 
 def ri(term)
@@ -94,13 +58,6 @@ mode = ARGV.shift
 if mode.nil? then
 
   term = STDIN.read.strip
-
-  if term.empty?
-    term = TextMate::UI.request_string( :title => "Ruby Documentation Search",
-                                        :prompt => "Enter a term to search for:",
-                                        :button1 => "search")
-  end
-  
   TextMate.exit_show_tool_tip("Please select a term to look up.") if term.empty?
 
   term, documentation = ri(term)
@@ -138,16 +95,38 @@ HTML
   html_footer
   TextMate.exit_show_html
 elsif mode == 'js' then
-  documentation = `#{e_sh RI_EXE} -T -f plain #{e_sh term}` \
+  documentation = h(`#{RI_EXE} -T -f plain #{e_sh term}`) \
     rescue "<h1>ri Command Error.</h1>"
 
-  if documentation =~ /\A(?:\s*More than one method matched|-+\s+Multiple choices)/
-    methods       = documentation.split(/\n[ \t]*\n/).last.
-                    strip.split(/(?:,\s*|\n)/).map { |m| m[/\S+/] }.compact
+  documentation.gsub!(/(\s|^)\+(\w+)\+(\s|$)/, "\\1<code>\\2</code>\\3")
+
+  if documentation =~ /\A(?:More than one method matched|-+\s+Multiple choices)/
+    methods       = documentation.split(/\n[ \t]*\n/).last.strip.split(/,\s*/)
     documentation = ">> #{methods.join(' ')}"
+  elsif documentation =~ /\A(?:-+\s+)((?:[A-Z_]\w*::)*[A-Z_]\w*)(#|::|\.)/
+    nesting   = $1
+    constants = nesting.split("::")
+    linked    = constants.enum_with_index.map do |const, i|
+      "<a href=\"javascript:ri('#{constants[0..i].join('::')}')\">#{const}</a>"
+    end
+    documentation.sub!(nesting, linked.join("::"))
   else
-    documentation = htmlize_ri_output(documentation, term)
+    documentation.sub!( /\A(-+\s+Class: \w* < )([^\s<]+)/,
+                              "\\1<a href=\"javascript:ri('\\2')\">\\2</a>" )
+    documentation.sub!(/(Includes:\s+-+\s+)(.+?)([ \t]*\n[ \t]*\n|\s*\Z)/m) do
+      head, meths, foot = $1, $2, $3
+      head + meths.gsub(/([A-Z_]\w*)\(([^)]*)\)/) do |match|
+        "<a href=\"javascript:ri('#{$1}')\">#{$1}</a>(" +
+        link_methods("#{$1}#", $2) + ")"
+      end + foot
+    end
+    documentation.sub!(/(Class methods:\s+-+\s+)(.+?)([ \t]*\n[ \t]*\n|\s*\Z)/m) do
+      $1 + link_methods("#{term}::", $2) + $3
+    end
+    documentation.sub!(/(Instance methods:\s+-+\s+)(.+?)([ \t]*\n[ \t]*\n|\s*\Z)/m) do
+      $1 + link_methods("#{term}#", $2) + $3
+    end
   end
 
-  puts documentation
+  puts documentation.gsub("\n", "<br />")
 end
