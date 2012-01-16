@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>File.symlink?(${1:"${2:path}"})$0</string>
+	<key>name</key>
+	<string>File.symlink?</string>
+	<key>scope</key>
+	<string>source.ruby</string>
+	<key>tabTrigger</key>
+	<string>filesy</string>
+	<key>uuid</key>
+	<string>77E110F7-34A0-49BC-9C54-303BB627A87A</string>
+</dict>
+</plist>
