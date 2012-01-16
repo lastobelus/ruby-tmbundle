@@ -3,14 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>assert_send`snippet_paren.rb`[${1:object}, :${2:message}, ${3:args}]`snippet_paren.rb end`$0</string>
+	<string>namespace :${1:${TM_FILENAME/\.\w+//}} do
+
+	desc ${2:"${3:default task for namespace $1}"}
+	task :default do
+		$0
+	end
+
+end</string>
 	<key>name</key>
-	<string>assert_send(..)</string>
+	<string>namespace :name ... task :default ... end copy</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>asse</string>
+	<string>namd</string>
 	<key>uuid</key>
-	<string>7850AD5C-A90D-4E2C-A931-EADFF8D3D9A3</string>
+	<string>354483C6-8363-463A-B9A3-864FC7745044</string>
 </dict>
 </plist>

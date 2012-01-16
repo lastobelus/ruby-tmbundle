@@ -23,7 +23,7 @@ end</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>cla</string>
+	<string>clap</string>
 	<key>uuid</key>
 	<string>0CCBE04E-F4E2-4E55-9506-7DE67ACF8388</string>
 </dict>

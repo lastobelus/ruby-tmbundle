@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>assert_send`snippet_paren.rb`[${1:object}, :${2:message}, ${3:args}]`snippet_paren.rb end`$0</string>
+	<string>File.expand_path(${1:"${2:path}"})$0</string>
 	<key>name</key>
-	<string>assert_send(..)</string>
+	<string>File.expand_path()</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>asse</string>
+	<string>filex</string>
 	<key>uuid</key>
-	<string>7850AD5C-A90D-4E2C-A931-EADFF8D3D9A3</string>
+	<string>4E2C75A9-3B61-4541-B1EC-43AA82277C4A</string>
 </dict>
 </plist>

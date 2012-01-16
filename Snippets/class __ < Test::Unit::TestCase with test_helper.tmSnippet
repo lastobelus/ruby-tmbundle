@@ -7,7 +7,7 @@
 
 require "${1:`#!/usr/bin/env ruby
     require 'rubygems'
-    require "active_support"
+    require "active_support/inflector"
     puts (ENV['TM_FILENAME'] || 'test_some_model.rb').gsub(/\.rb$/, '').gsub(/^test_/,'').gsub(/_test$/,'')
 	`}"
 

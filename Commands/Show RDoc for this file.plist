@@ -21,6 +21,20 @@ rm -rf "${output_dir}"
 
 rdoc -S -N -q -f html --op "${output_dir}" "$input" &amp;&gt;/dev/null
 
+: &lt;&lt;EOHTML
+&lt;html&gt;
+	&lt;head&gt;&lt;/head&gt;
+	&lt;body&gt;
+		&lt;pre&gt;
+	pwd:        ${PWD}
+	output:     $output
+	output_dir: ${output_dir}
+	cmd:        rdoc -S -N -q -f html --op "${output_dir}" "$input" &amp;&gt;/dev/null
+		&lt;/pre&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+EOHTML
+
 echo "&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=\"refresh\" content=\"0;URL=tm-file://${output_dir}/index.html\"&gt;&lt;/head&gt;&lt;/html&gt;"
 </string>
 	<key>input</key>

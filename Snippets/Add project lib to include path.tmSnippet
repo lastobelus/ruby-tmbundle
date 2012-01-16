@@ -4,7 +4,7 @@
 <dict>
 	<key>content</key>
 	<string>THIS_FILE = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
-$:.unshift File.join(File.dirname(THIS_FILE), '..', 'lib')
+\$:.unshift File.join(File.dirname(THIS_FILE), '..', 'lib')
 </string>
 	<key>name</key>
 	<string>Add project lib to include path</string>

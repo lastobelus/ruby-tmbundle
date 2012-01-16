@@ -9,10 +9,26 @@
 
 require ENV['TM_SUPPORT_PATH'] + '/lib/textmate'
 
-compiler_ruby = `which rbx`.strip
+compiler_ruby = ''
+
+=begin
+if `which rvm`.length == 0
+	puts "loading rvm"
+	`[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm"`
+end
+=end
+
+if ENV['TM_RUBY'] &amp;&amp; (`#{ENV['TM_RUBY']} -v` !~ /1\.8/)
+	compiler_ruby = ENV['TM_RUBY']
+else
+	compiler_ruby = `which rbx`.strip
+end
+
 if compiler_ruby.length == 0
   compiler_ruby = ENV['TM_RUBY'] || `which ruby`.strip
 end
+
+puts "using ruby interpreter: #{`#{compiler_ruby} -v`}"
 
 result = `#{compiler_ruby} -wc "$TM_FILEPATH" 2&gt;&amp;1`
 
@@ -24,6 +40,8 @@ end
 if result =~ /:(\d+):/
   print result
   TextMate.go_to :line =&gt; $1
+else
+	puts "Syntax OK. File Saved"
 end
 
 </string>
