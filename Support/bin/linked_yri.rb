@@ -13,7 +13,10 @@ require "web_preview"
 require "erb"
 include ERB::Util
 
-RI_EXE = [ ENV['TM_RUBY_RI'], 'qri', 'ri', 'qri' ].find { |cmd| !cmd.to_s.empty? && (File.executable?(cmd) || ENV['PATH'].split(':').any? { |dir| File.executable? File.join(dir, cmd) }) ? cmd : false }
+# RI_EXE = [ ENV['TM_RUBY_RI'], 'qri', 'ri' ].find { |cmd| !cmd.to_s.empty? && (File.executable?(cmd) || ENV['PATH'].split(':').any? { |dir| File.executable? File.join(dir, cmd) }) ? cmd : false }
+
+YARD_DIR = File.join(ENV["TM_BUNDLE_SUPPORT"], 'yard')
+RI_EXE = "yri"
 
 term = ARGV.shift
 
@@ -23,40 +26,29 @@ def e_js_sh(str)
 end
 
 def link_methods(prefix, methods)
-  methods.sub(/^\n  /,'').split("\n  ").map do |match|
-    "<a href=\"javascript:ri('#{prefix}#{match}')\">#{match}</a>"
-  end.join(', ')
+  methods.split(/(,\s*)/).map do |match|
+    match[0] == ?, ?
+      match : "<a href=\"javascript:ri('#{prefix}#{match}')\">#{match}</a>"
+  end.join
 end
 
 def htmlize_ri_output(text, term)
-  text = text.gsub(/&/, '&amp;').gsub(/<([^\/t]{2})/, "&lt;\\1")
+  text = text.gsub(/&/, '&amp;').gsub(/</, '&lt;')
 
-  text.gsub!(/^(\(from[^\n]+\n-----+\n)([^=].*?)(?=\n(\(from)|(\n-----+\n=)|\Z)/m, "\\1\n<pre>\n\\2\n</pre>\n")
-    
-  text.sub!(/\A= ([^.#\n]*)$\n*/) do
-    "<h2>Class: " + $1.gsub(/([A-Z_]\w*)(\s+&lt;)?/, "<a href=\"javascript:ri('\\1')\">\\1</a>\\2") + "</h2>\n"
+  text.sub!(/\A(-+\s+Class: )(.*)$\n*/) do
+    "<h2>Class: " + $2.gsub(/([A-Z_]\w*)(\s+&lt;)?/, "<a href=\"javascript:ri('\\1')\">\\1</a>\\2") + "</h2>\n<pre>"
   end
 
-  text.sub!(/^\(from/, "\n<br />(from")
-  text.gsub!(/^\(from/, "\n<br /><br /><br /><br /><hr>(from")
-  text.sub!(/\A= (([A-Z_]\w*::)*[A-Z_]\w*)((#|::|\.).*)$/) do
-    # "WRONG 1>#{$1} 2>#{$2} 3>#{$3} 4>#{$4}"
-    method    = $3
-    namespace = $1.split("::")
+  text.sub!(/\A(-+\s+)(([A-Z_]\w*::)*[A-Z_]\w*)((#|::|\.).*)$/) do
+    method    = $4
+    namespace = $2.split("::")
     linked    = (0...namespace.size).map do |i|
       "<a href=\"javascript:ri('#{namespace[0..i].join('::')}')\">#{namespace[i]}</a>"
     end
-    "<h2>#{linked.join("::")}#{method}</h2>\n"
+    "<h2>#{linked.join("::")}#{method}</h2>\n<pre>"
   end
 
- 
-  text.gsub!(/^= (Constants:)([^=]*)(\n\n)/m) do
-    head, consts, foot = $1, $2, $3
-    consts.gsub!(/:\s*\[not documented\]\s*/, ',').chomp!(',')
-    "<h3>" + head + "</h3>" + consts + foot
-  end
-  
-  text.gsub!(/^= (Includes:)(.+?)(\n\n)/m) do
+  text.sub!(/^(Includes:\s+-+\s+)(.+?)([ \t]*\n[ \t]*\n|\s*\Z)/m) do
     head, meths, foot = $1, $2, $3
     head + meths.gsub(/([A-Z_]\w*)\(([^)]*)\)/) do |match|
       "<a href=\"javascript:ri('#{$1}')\">#{$1}</a>(" +
@@ -64,18 +56,18 @@ def htmlize_ri_output(text, term)
     end + foot
   end
 
-  text.gsub!(/^= (Class methods:)(.+?)(\n\n)/m) do
-    "<h3>" + $1 + "</h3>" + link_methods("#{term}.", $2) + $3
+  text.sub!(/^(Class methods:\s+-+\s+)(.+?)([ \t]*\n[ \t]*\n|\s*\Z)/m) do
+    $1 + link_methods("#{term}.", $2) + $3
   end
 
-  text.gsub!(/^= (Instance methods:)(.+?)(\n\n)/m) do
-    "<h3>" + $1 + "</h3>" + link_methods("#{term}#", $2) + $3
+  text.sub!(/^(Instance methods:\s+-+\s+)(.+?)([ \t]*\n[ \t]*\n|\s*\Z)/m) do
+    $1 + link_methods("#{term}#", $2) + $3
   end
 
-  text.gsub!(/(?:\n+-+$)?\n+([\w\s]+)[:.]$\n-+\n+/, "\n\n<h2>\\1</h2>\n")
-  text.gsub!(/^-----+$/, '<hr>')
+  text.gsub!(/(?:\n+-+$)?\n+([\w\s]+)[:.]$\n-+\n+/, "</pre>\n\n<h2>\\1</h2>\n<pre>")
+  text.gsub!(/^-+$/, '<hr>')
 
-  text.chomp + ""
+  text.chomp + "</pre>"
 end
 
 def ri(term)
@@ -149,8 +141,7 @@ HTML
   html_footer
   TextMate.exit_show_html
 elsif mode == 'js' then
-  # TextMate.exit_show_tool_tip("#{e_sh RI_EXE} -T -f rdoc #{e_sh term}")
-  documentation = `#{e_sh RI_EXE} -T -f rdoc #{e_sh term}` \
+  documentation = `cd #{e_sh YARD_DIR}; #{e_sh RI_EXE} -T --legacy #{e_sh term}` \
     rescue "<h1>ri Command Error.</h1>"
 
   if documentation =~ /\A(?:\s*More than one method matched|-+\s+Multiple choices)/
