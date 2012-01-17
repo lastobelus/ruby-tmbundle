@@ -8,7 +8,7 @@
 	<string>#!/usr/bin/env ruby -w
 
 whitespace = ""
-if ENV['TM_CURRENT_LINE'] =~ /^([\s\t]+)/
+if ENV['TM_CURRENT_LINE'] =~ /^(\s+)/
   whitespace = $1.gsub(/\t/, '\t')
 end
 
