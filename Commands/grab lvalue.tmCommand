@@ -6,6 +6,7 @@
 	<string>nop</string>
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
+# copies lvalue (everything to the left of first standalone = on line) to clipboard
 #raise ".ENV['TM_LINE_INDEX']: #{ENV['TM_LINE_INDEX'].inspect}"
 snip = ENV['TM_CURRENT_LINE'][0..ENV['TM_LINE_INDEX'].to_i]
 terms = snip.split(/ += +/)
