@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>File.dirname(${1:__FILE__})</string>
+	<string>private</string>
 	<key>name</key>
-	<string>File.dirname(__FILE__)</string>
+	<string>private</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>dirn</string>
+	<string>pv</string>
 	<key>uuid</key>
-	<string>16920DC1-6FA6-48C8-90C5-C19E2C734303</string>
+	<string>6366B51E-DA99-4BDA-BD01-AE54056FC480</string>
 </dict>
 </plist>
