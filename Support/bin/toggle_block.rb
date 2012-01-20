@@ -13,7 +13,7 @@ CURSOR = [0xFFFC].pack("U").freeze
 def toggle_block( block_text )
   result = block_text.dup
   
-  case result.to_a.size
+  case result.lines.to_a.size
   when 1  # single line to multi-line transform
     # find the '}' relative to the cursor
     if c = result.index(CURSOR)
@@ -54,7 +54,7 @@ def toggle_block( block_text )
     
     # properly indent the remaining lines
     indent = result[/\A[ \t]*/]
-    lines  = result.to_a
+    lines  = result.lines.to_a
     result = [ lines.first,
                lines[1..-2].map { |line| line[indent.size, 0] = "\t"; line },
                lines.last ].join
@@ -62,7 +62,7 @@ def toggle_block( block_text )
     # strip trailing line whitespace
     result.sub!(/(\S)[ \t]+\n/, "\\1\n")
   when 2..1.0/0.0  # multi-line to single line transform
-    lines = result.to_a
+    lines = result.lines.to_a
     lines.each { |line| line.chomp! }
     
     # flop 'do' to '{'

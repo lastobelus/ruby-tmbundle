@@ -163,7 +163,7 @@ class XMPFilter
   
   def annotated_multi_line(line, expression, indent, runtime_data, idx)
     pretty = (runtime_data.results[idx].map{|x| x[1]} || []).join(", ")
-    first, *rest = pretty.to_a
+    first, *rest = pretty.lines.to_a
     rest.inject("#{expression}\n#{indent}# => #{first || "\n"}") {|s, l| s << "#{indent}#    " << l }
   end
   
