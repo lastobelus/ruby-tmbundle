@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>require_relative "$1"$0</string>
+	<string>count { |el| !el.nil? }</string>
 	<key>name</key>
-	<string>require_relative</string>
+	<string>non nil items in array</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>reqf</string>
+	<string>nitems</string>
 	<key>uuid</key>
-	<string>7C42D878-FD0F-4181-A71A-57A091C0154A</string>
+	<string>9143DC77-F3AA-45C8-9D7D-7419A79B396E</string>
 </dict>
 </plist>

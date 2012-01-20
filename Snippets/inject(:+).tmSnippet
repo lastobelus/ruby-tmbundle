@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>require_relative "$1"$0</string>
+	<string>inject(:${1:+})$0</string>
 	<key>name</key>
-	<string>require_relative</string>
+	<string>inject(:+)</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>reqf</string>
+	<string>injs</string>
 	<key>uuid</key>
-	<string>7C42D878-FD0F-4181-A71A-57A091C0154A</string>
+	<string>8D7A3B91-33CC-4A26-9294-DD19CFBAE487</string>
 </dict>
 </plist>
