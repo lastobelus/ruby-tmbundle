@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>(?&lt;${1:name}&gt;\g&lt;${2:second_name}&gt;)$0</string>
+	<key>name</key>
+	<string>(?&lt;name&gt;\g&lt;name2&gt;) regex: use named group in a named group</string>
+	<key>scope</key>
+	<string>string.regexp</string>
+	<key>tabTrigger</key>
+	<string>nug</string>
+	<key>uuid</key>
+	<string>A791E2FA-4E79-4923-AA12-3C468B89EC87</string>
+</dict>
+</plist>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>\g&lt;${1:name}&gt;$0</string>
+	<key>name</key>
+	<string>\g&lt;name&gt; regex: use named group</string>
+	<key>scope</key>
+	<string>string.regexp</string>
+	<key>tabTrigger</key>
+	<string>ug</string>
+	<key>uuid</key>
+	<string>A7FC45A3-62F0-4144-BF6B-CF4226F138FE</string>
+</dict>
+</plist>
