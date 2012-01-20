@@ -28,25 +28,65 @@ def link_methods(prefix, methods)
   end.join(', ')
 end
 
+def less_important(txt)
+  '<span style="font-size: 75%;">&nbsp;&nbsp;' + txt + '</span>'
+end
+
+def ascii_rule
+  "\n+-----+\n+"
+end
+
+def text_between_rules
+end
+
 def htmlize_ri_output(text, term)
   text = text.gsub(/&/, '&amp;').gsub(/<([^\/t]{2})/, "&lt;\\1")
+  
+  
+  text.gsub!(/^=== Implementation from ([^\s]*)[^\n]*#{ascii_rule}(((?!#{ascii_rule}).)*)#{ascii_rule}(((?!\n\(from).)*)/m) do
+    source, definition, explanation = $1,$2,$4
+    namespace = source.split("::")
+    linked    = (0...namespace.size).map do |i|
+      "<a href=\"javascript:ri('#{namespace[0..i].join('::')}')\">#{namespace[i]}</a>"
+    end
+    definition.gsub!("\n", "<br />")
+    explanation ||= ""
+    "<h4>Implementation from #{linked.join("::")}</h4>\n" +
+    "<code>\n" + definition + "\n</code>\n" +
+    "<pre>\n" + explanation + "\n</pre>\n"
+  end
 
-  text.gsub!(/^(\(from[^\n]+\n-----+\n)([^=].*?)(?=\n(\(from)|(\n-----+\n=)|\Z)/m, "\\1\n<pre>\n\\2\n</pre>\n")
+text.gsub!(/^(\(from[^\n]+#{ascii_rule})([^=]((?!\n=).)*?)(?=(\n\(from)|(#{ascii_rule}=)|\Z)/m, 
+      "\\1\n<pre>\n\\2\n</pre>\n")
     
+
+  text.sub!(/^(\(from.*)(#{ascii_rule}|(?!===)\n)/) do
+    "\n#{less_important($1)}\n"
+  end
+
+
   text.sub!(/\A= ([^.#\n]*)$\n*/) do
     "<h2>Class: " + $1.gsub(/([A-Z_]\w*)(\s+&lt;)?/, "<a href=\"javascript:ri('\\1')\">\\1</a>\\2") + "</h2>\n"
   end
 
-  text.sub!(/^\(from/, "\n<br />(from")
-  text.gsub!(/^\(from/, "\n<br /><br /><br /><br /><hr>(from")
-  text.sub!(/\A= (([A-Z_]\w*::)*[A-Z_]\w*)((#|::|\.).*)$/) do
+  text.gsub!(/^(\(from.*)(#{ascii_rule})?/) do
+    "\n<br /><br /><br /><hr>#{less_important($1)}<br />\n"
+  end
+  
+  text.gsub!(/^-----+$/, '')
+  
+  text.sub!(/\A= (([A-Z_]\w*::)*[A-Z_]\w*)?((#|::|\.).*)$/) do
     # "WRONG 1>#{$1} 2>#{$2} 3>#{$3} 4>#{$4}"
     method    = $3
-    namespace = $1.split("::")
-    linked    = (0...namespace.size).map do |i|
-      "<a href=\"javascript:ri('#{namespace[0..i].join('::')}')\">#{namespace[i]}</a>"
+    if $1
+      namespace = $1.split("::")
+      linked    = (0...namespace.size).map do |i|
+        "<a href=\"javascript:ri('#{namespace[0..i].join('::')}')\">#{namespace[i]}</a>"
+      end
+      "<h2>#{linked.join("::")}#{method}</h2>\n"
+    else
+      "<h2>#{method}</h2>\n"
     end
-    "<h2>#{linked.join("::")}#{method}</h2>\n"
   end
 
  
@@ -73,7 +113,10 @@ def htmlize_ri_output(text, term)
   end
 
   text.gsub!(/(?:\n+-+$)?\n+([\w\s]+)[:.]$\n-+\n+/, "\n\n<h2>\\1</h2>\n")
-  text.gsub!(/^-----+$/, '<hr>')
+
+  text.gsub!(/<hr>(\s|(<br \/>)|(<pre>)|(<code>)|(<\/pre)|(<\/code>))*<hr>/,'<hr>')
+  
+  text.gsub!(/((<pre>)|(<code>))\s*<hr>/) { $1 }
 
   text.chomp + ""
 end
