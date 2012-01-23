@@ -3,17 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>desc ${1:"$2"}
-task ${3::name}${4: =&gt; [${5::dependency]}} do
-	$0
-end</string>
+	<string>File.open(${1:"${2:path/to/file}"}${3/(^[rwab+]+$)|.*/(?1:, ")/}${3:w}${3/(^[rwab+]+$)|.*/(?1:")/}) { |f| f.write ${4:what} }$0</string>
 	<key>name</key>
-	<string>desc ... task :name ... end</string>
+	<string>File.open(filename, 'w') { |f| f.write }</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>tas</string>
+	<string>filew</string>
 	<key>uuid</key>
-	<string>FE9A8EDA-C243-4068-8F38-A615B82D08C9</string>
+	<string>AE84F45C-3146-40EA-A653-9AE35E89DDBF</string>
 </dict>
 </plist>

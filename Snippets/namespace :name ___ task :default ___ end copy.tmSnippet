@@ -12,7 +12,7 @@
 
 end</string>
 	<key>name</key>
-	<string>namespace :name ... task :default ... end copy</string>
+	<string>namespace :name ... task :default ... end (namd)</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

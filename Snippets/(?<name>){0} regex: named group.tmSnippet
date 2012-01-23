@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>(?&lt;name&gt;){0} regex: named group</string>
 	<key>scope</key>
-	<string>string.regexp</string>
+	<string>source.regexp, string.regexp</string>
 	<key>tabTrigger</key>
 	<string>ng</string>
 	<key>uuid</key>

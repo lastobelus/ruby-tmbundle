@@ -3,17 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>desc ${1:"$2"}
-task ${3::name}${4: =&gt; [${5::dependency]}} do
-	$0
-end</string>
+	<string>(?&lt;${1:subexpr})</string>
 	<key>name</key>
-	<string>desc ... task :name ... end</string>
+	<string>(?&lt;...) regex: look behind</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.regexp, string.regexp</string>
 	<key>tabTrigger</key>
-	<string>tas</string>
+	<string>lb</string>
 	<key>uuid</key>
-	<string>FE9A8EDA-C243-4068-8F38-A615B82D08C9</string>
+	<string>228C9D90-21D8-4892-9E2C-B1F337645D97</string>
 </dict>
 </plist>

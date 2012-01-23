@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>\g&lt;name&gt; regex: use named group</string>
 	<key>scope</key>
-	<string>string.regexp</string>
+	<string>source.regexp, string.regexp</string>
 	<key>tabTrigger</key>
 	<string>ug</string>
 	<key>uuid</key>

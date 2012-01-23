@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>(?&lt;name&gt;\g&lt;name2&gt;) regex: use named group in a named group</string>
 	<key>scope</key>
-	<string>string.regexp</string>
+	<string>source.regexp, string.regexp</string>
 	<key>tabTrigger</key>
 	<string>nug</string>
 	<key>uuid</key>
