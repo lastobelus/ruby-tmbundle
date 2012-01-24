@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>sort { |a, b| $1 }$0</string>
+	<string>sort { |a, b| ${1:a} &lt;=&gt; ${2:b} }$0</string>
 	<key>name</key>
 	<string>sort { |a, b| .. }</string>
 	<key>scope</key>

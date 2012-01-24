@@ -85,7 +85,9 @@ def toggle_block( block_text )
   end
   
   result
-rescue        # if anything goes wrong...
+rescue => e        # if anything goes wrong...
+  # puts e
+  # puts e.backtrace.join("\n")
   block_text  # just send back the original text
 end
 
