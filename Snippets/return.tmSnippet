@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>return${1/.+/ /}${1:what}$0</string>
+	<string>return${1/([ \n]*[^ \n]+[ \n]*)?[ \n]*/(?1: )/}${1:what}$0</string>
 	<key>name</key>
 	<string>return</string>
 	<key>scope</key>
