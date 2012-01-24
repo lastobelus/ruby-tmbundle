@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>attr_reader :${0:attr_names}</string>
+	<string>return${1/.+/ /}${1:what}$0</string>
 	<key>name</key>
-	<string>attr_reader ..</string>
+	<string>return</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>arr</string>
+	<string>r</string>
 	<key>uuid</key>
-	<string>A150C2D8-25B3-4339-BC92-8A0160A70486</string>
+	<string>01C8F0A3-9A60-4114-8FC0-29E6C8CD2F9B</string>
 </dict>
 </plist>
