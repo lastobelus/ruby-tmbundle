@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>(?&lt;!...) regex: neg look behind</string>
 	<key>scope</key>
-	<string>source.regexp, string.regexp</string>
+	<string>source.ruby string.regexp, source.regexp</string>
 	<key>tabTrigger</key>
 	<string>nlb</string>
 	<key>uuid</key>

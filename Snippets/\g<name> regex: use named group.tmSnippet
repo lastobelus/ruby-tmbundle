@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>\g&lt;name&gt; regex: use named group</string>
 	<key>scope</key>
-	<string>source.regexp, string.regexp</string>
+	<string>source.ruby string.regexp, source.regexp</string>
 	<key>tabTrigger</key>
 	<string>ug</string>
 	<key>uuid</key>

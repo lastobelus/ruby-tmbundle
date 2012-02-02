@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>(?!...) regex: negative look ahead</string>
 	<key>scope</key>
-	<string>source.regexp, string.regexp</string>
+	<string>source.ruby string.regexp, source.regexp</string>
 	<key>tabTrigger</key>
 	<string>nla</string>
 	<key>uuid</key>

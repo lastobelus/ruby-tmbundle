@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>(?=...) regex: look ahead</string>
 	<key>scope</key>
-	<string>source.regexp, string.regexp</string>
+	<string>source.ruby string.regexp, source.regexp</string>
 	<key>tabTrigger</key>
 	<string>la</string>
 	<key>uuid</key>
