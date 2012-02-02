@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>class &lt;&lt; self; self end</string>
+	<string>singleton_class</string>
 	<key>name</key>
 	<string>singleton_class()</string>
 	<key>scope</key>

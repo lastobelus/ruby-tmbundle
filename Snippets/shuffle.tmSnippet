@@ -5,12 +5,12 @@
 	<key>content</key>
 	<string>shuffle</string>
 	<key>name</key>
-	<string>randomize()</string>
+	<string>shuffle</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>ran</string>
+	<string>shu</string>
 	<key>uuid</key>
-	<string>B0CE57EC-FB2E-4482-8CCE-448DC2588715</string>
+	<string>770BAD49-5B5B-49BE-A5D6-4D7074DF3CE8</string>
 </dict>
 </plist>

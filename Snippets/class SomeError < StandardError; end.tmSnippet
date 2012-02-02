@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>shuffle</string>
+	<string>class ${1:Some}Error &lt; ${2:Standard}Error\; end</string>
 	<key>name</key>
-	<string>randomize()</string>
+	<string>class SomeError &lt; StandardError; end</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>ran</string>
+	<string>erc</string>
 	<key>uuid</key>
-	<string>B0CE57EC-FB2E-4482-8CCE-448DC2588715</string>
+	<string>C4B9A8A4-1454-4B34-BD07-57D147F3D225</string>
 </dict>
 </plist>
