@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>class ${1:Some}Error &lt; ${2:Standard}Error; end</string>
+	<string>compact</string>
 	<key>name</key>
-	<string>class SomeError &lt; StandardError; end</string>
+	<string>compact</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>erc</string>
+	<string>cop</string>
 	<key>uuid</key>
-	<string>C4B9A8A4-1454-4B34-BD07-57D147F3D225</string>
+	<string>4711CF26-9A7E-43D3-B365-C17586BE68AE</string>
 </dict>
 </plist>
