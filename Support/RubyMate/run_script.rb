@@ -6,7 +6,7 @@ require 'pathname'
 TextMate.save_current_document
 
 # For Run focused unit test, find the name of the test the user wishes to run.
-args = [ ]
+args = []
 if ARGV.first == "--name="
   n = ENV['TM_LINE_NUMBER'].to_i
 
